@@ -1348,10 +1348,10 @@
 				<&gp 53>, <&gp 54>, <&gp 55>, <&gp 56>,
 				<&gp 60>, <&gp 62>, <&gp 77>, <&gp 78>,
 				<&gp 79>, <&gp 80>, <&gp 83>, <&gp 90>,
-				<&gp 91>, <&gp 92>,
+				<&gp 91>,
 				<&gp 97>, <&gp 100>, <&gp 101>, <&gp 102>,
 				<&gp 105>, <&gp 106>, <&gp 112>, <&gp 120>;
-			qcom,num-grp-pins = <25>;
+			qcom,num-grp-pins = <32>;
 			qcom,pin-func = <0>;
 			label = "nc_control";
 			nc_sleep: nc_sleep {

@@ -328,10 +328,22 @@ static void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 	cmdreq.flags = CMD_REQ_COMMIT;
 
 	/*Panel ON/Off commands should be sent in DSI Low Power Mode*/
+#if defined (CONFIG_LGD_INCELL_DB7400_VIDEO_HD_DUAL_PANEL)
+	if(lge_dual_panel == SECONDARY_MODULE){
+		if (pcmds->link_state == DSI_LP_MODE)
+			cmdreq.flags  |= CMD_REQ_LP_MODE;
+	} else {
+		if (pcmds->link_state == DSI_LP_MODE)
+			cmdreq.flags  |= CMD_REQ_LP_MODE;
+		else if (pcmds->link_state == DSI_HS_MODE)
+			cmdreq.flags |= CMD_REQ_HS_MODE;
+	}
+#else
 	if (pcmds->link_state == DSI_LP_MODE)
 		cmdreq.flags  |= CMD_REQ_LP_MODE;
 	else if (pcmds->link_state == DSI_HS_MODE)
 		cmdreq.flags |= CMD_REQ_HS_MODE;
+#endif
 
 #if defined(CONFIG_LGD_INCELL_VIDEO_FWVGA_PT_PANEL)
 	if (pcmds->link_state == DSI_HS_MODE)

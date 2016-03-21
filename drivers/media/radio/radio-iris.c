@@ -2019,6 +2019,11 @@ static void hci_cc_fm_disable_rsp(struct radio_hci_dev *hdev,
 	} else if ((radio->mode == FM_TURNING_OFF) && (status != 0)) {
 		radio_hci_req_complete(hdev, status);
 	}
+	/* added by LGE, TD 137525 */
+	else if (radio->mode == FM_OFF){
+		radio_hci_req_complete(hdev, status);
+	}
+	/* added by LGE, TD 137525 */
 }
 
 static void hci_cc_conf_rsp(struct radio_hci_dev *hdev, struct sk_buff *skb)
@@ -5329,13 +5334,15 @@ static int iris_fops_release(struct file *file)
 		retval = hci_cmd(HCI_FM_DISABLE_RECV_CMD,
 						radio->fm_hdev);
 		/* wait for disable cmd resp from controller */
-		msleep(50);
+		if(retval == -EINTR)		//added by LGE, TD 137525
+			msleep(50);
 	} else if (radio->mode == FM_TRANS) {
 		radio->mode = FM_OFF;
 		retval = hci_cmd(HCI_FM_DISABLE_TRANS_CMD,
 					radio->fm_hdev);
 		/* wait for disable cmd resp from controller */
-		msleep(50);
+		if(retval == -EINTR)		//added by LGE, TD 137525
+			msleep(50);
 	} else if (radio->mode == FM_CALIB) {
 		radio->mode = FM_OFF;
 		return retval;
